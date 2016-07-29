@@ -8,7 +8,7 @@ $Verbose = @{}
 $Verbose.add('Verbose',$True)
 
 $PSVersion    = $PSVersionTable.PSVersion.Major
-$cAppxPackage = "$PSScriptRoot\..\cAppxPackage\cAppxPackage.psm1"
+$cAppxPackage = "$PSScriptRoot\..\cAppxPackage.psm1"
 
 Describe "Invoke-Parallel PS$PSVersion" {
     Copy-Item $cAppxPackage TestDrive:\script.ps1 -Force
