@@ -1,5 +1,5 @@
-﻿$ErrorActionPreference = "Stop"
-]
+﻿$ErrorActionPreference = 'Stop'
+
 ##Variables
 $ModuleName = $env:ModuleName
 $ModuleLocation = $env:APPVEYOR_BUILD_FOLDER
@@ -9,7 +9,7 @@ $BuildNumber = $env:APPVEYOR_BUILD_NUMBER
 
 ##Setup
 #Add current directory to ps modules path so module is available 
-$env:psmodulepath = $env:psmodulepath + ";" + "C:\projects"
+$env:psmodulepath = $env:psmodulepath + ';' + 'C:\projects'
 #Install dsc resource designer to make tests available
 Install-Module -Name xDSCResourceDesigner -force
 
@@ -21,24 +21,24 @@ Write-Host `n
 $DSC = Get-DscResource
 
 Write-Host `n
-Write-Host "Available Modules"
+Write-Host 'Available Modules'
 Write-Host `n
 $DSC | Format-Table
 
 write-host `n
-write-host " Testing each resource in module: " -NoNewline
+write-host ' Testing each resource in module: ' -NoNewline
 write-host "$ModuleName" -ForegroundColor blue -BackgroundColor darkyellow
 write-host `n
 
 ##Check module exists
-if (-not ($DSC | ? {$_.Module.Name -eq $ModuleName}))
+if (-not ($DSC | Where-Object {$_.Module.Name -eq $ModuleName}))
 {
     Write-Error "Module not found: $ModuleName"
 }
 
 $ExportedDSCResources = @()
 ##Test the modules resources
-foreach ($Resource in ($DSC | ? {$_.Module.Name -eq $ModuleName})) 
+foreach ($Resource in ($DSC | Where-Object {$_.Module.Name -eq $ModuleName})) 
 {
     write-host "Running Tests against $($Resource.Name) resource" -ForegroundColor Yellow
     try 
@@ -69,11 +69,11 @@ foreach ($Resource in ($DSC | ? {$_.Module.Name -eq $ModuleName}))
     }
 }
 
-write-host "Incrementing Module version, current version: " -NoNewline
+write-host 'Incrementing Module version, current version: ' -NoNewline
 
 ##Publish the resource
 write-host `n
-write-host "Publishing module to Powershell Gallery: " -NoNewline
+write-host 'Publishing module to Powershell Gallery: ' -NoNewline
 write-host "$ModuleName" -ForegroundColor blue -BackgroundColor darkyellow
 write-host `n
 
