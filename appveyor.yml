@@ -1,0 +1,10 @@
+version: 0.1.0.{build}
+os: WMF 5
+install:
+  - ps: Get-PackageProvider -Name NuGet -Force
+environment:
+  nugetKey:
+    secure: xxx
+  ModuleName: cAppxPackage
+build_script:
+- ps: . .\AppveyorCIScript.ps1
