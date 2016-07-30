@@ -1,9 +1,10 @@
 ﻿#Header
 Write-Host 'Running Pester Tests' -ForegroundColor Yellow
+Write-Host "Current working directory: $pwd"
 
 #Invoke-Pester
 $testResultsFile = '.\TestsResults.xml'
-$res             = Invoke-Pester -Script ..\Tests\cAppxPackage.Tests.ps1 -OutputFormat NUnitXml -OutputFile $testResultsFile -PassThru
+$res             = Invoke-Pester -Script .\Tests\cAppxPackage.Tests.ps1 -OutputFormat NUnitXml -OutputFile $testResultsFile -PassThru
 
 #Upload results
 Write-Host 'Uploading results'
