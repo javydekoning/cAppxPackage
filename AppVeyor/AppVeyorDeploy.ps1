@@ -21,7 +21,7 @@ if ($env:APPVEYOR_REPO_BRANCH -notmatch 'master')
 }
 
 $ModulePath = Split-Path $pwd
-Write-Host "Adding $ModulePath to 'smodulepath' PATH variable"
+Write-Host "Adding $ModulePath to 'psmodulepath' PATH variable"
 $env:psmodulepath = $env:psmodulepath + ';' + $ModulePath
 
 Write-Host 'Publishing module to Powershell Gallery'

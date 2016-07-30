@@ -28,4 +28,3 @@ test_script:
 #---------------------------------# 
 deploy_script: 
   - ps: . .\AppVeyor\AppveyorDeploy.ps1
-
