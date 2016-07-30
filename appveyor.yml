@@ -20,7 +20,7 @@ build_script:
 #---------------------------------# 
 #      test configuration         # 
 #---------------------------------# 
-deploy_script: 
+test_script: 
   - ps: . .\AppVeyor\AppVeyorTest.ps1
 
 #---------------------------------# 
