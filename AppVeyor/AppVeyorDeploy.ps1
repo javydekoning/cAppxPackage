@@ -21,4 +21,4 @@ if ($env:APPVEYOR_REPO_BRANCH -notmatch 'master')
 }
 
 Write-Host 'Publishing module to Powershell Gallery'
-Publish-Module -Name $ModuleName -NuGetApiKey $env:NuGetApiKey
+Publish-Module -Name $env:ModuleName -NuGetApiKey $env:NuGetApiKey
