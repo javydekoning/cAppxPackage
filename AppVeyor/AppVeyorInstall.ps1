@@ -1,6 +1,11 @@
-﻿Write-Host 'Running AppVeyor install script'
-Write-Host 'Configuring NuGet and Installing Pester:'
-Install-PackageProvider -Name NuGet -Force
-Install-Module -Name Pester -Repository PSGallery -Force
+﻿#Header
+Write-Host 'Running AppVeyor install script' -ForegroundColor Yellow
 
-ls env: | out-string
+#Install Nuget
+Write-Host 'Installing NuGet PackageProvide'
+$pkg = Install-PackageProvider -Name NuGet -Force
+Write-Host "Installed NuGet version '$($pkg.version)'" 
+
+#Install Pester
+Write-Host 'Installing Pester'
+Install-Module -Name Pester -Repository PSGallery -Force
