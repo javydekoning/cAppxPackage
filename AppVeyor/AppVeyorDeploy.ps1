@@ -10,10 +10,15 @@ Write-Host 'Creating new module manifest'
 $ModuleManifestPath = Join-Path -path "$pwd" -ChildPath ("$env:ModuleName"+'.psd1')
 $ModuleManifest     = Get-Content $ModuleManifestPath -Raw
 [regex]::replace($ModuleManifest,'(ModuleVersion = )(.*)',"`$1'$env:APPVEYOR_BUILD_VERSION'") | Out-File -LiteralPath $ModuleManifestPath
-Get-Content $ModuleManifestPath -Raw
 
 #---------------------------------# 
 # Publish to PS Gallery           # 
 #---------------------------------# 
+if ($env:APPVEYOR_REPO_BRANCH -notmatch 'master')
+{
+    Write-Host "Finished testing of branch: $env:APPVEYOR_REPO_BRANCH - Exiting"
+    exit;
+}
+
 Write-Host 'Publishing module to Powershell Gallery'
-#Publish-Module -Name $ModuleName -NuGetApiKey $PublishingNugetKey
+Publish-Module -Name $ModuleName -NuGetApiKey $env:NuGetApiKey

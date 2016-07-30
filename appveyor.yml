@@ -7,8 +7,8 @@ install:
   - ps: . .\AppVeyor\AppVeyorInstall.ps1
 
 environment:
-  nugetKey:
-    secure: xxx
+  NuGetApiKey:
+    secure: DVwTEyLF7QDu3hlYtGbgxfyyqPCz98ZOMO3E8qfg/r0EwlC1hPU+LsLy+0Xb9r+L
   ModuleName: cAppxPackage
 
 #---------------------------------# 
