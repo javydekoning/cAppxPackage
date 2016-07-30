@@ -27,5 +27,5 @@ test_script:
 #      deployment configuration   # 
 #---------------------------------# 
 deploy_script: 
-  - ps: #. .\AppveyorDeploy.ps1
+  - ps: . .\AppveyorDeploy.ps1
 
