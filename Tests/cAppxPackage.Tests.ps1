@@ -10,7 +10,7 @@ $Verbose.add('Verbose',$True)
 $PSVersion    = $PSVersionTable.PSVersion.Major
 $cAppxPackage = "$PSScriptRoot\..\cAppxPackage.psm1"
 
-Describe "Invoke-Parallel PS$PSVersion" {
+Describe "cAppxPackage PS$PSVersion" {
     Copy-Item $cAppxPackage TestDrive:\script.ps1 -Force
     Mock Export-ModuleMember {return $true}
     . 'TestDrive:\script.ps1'
