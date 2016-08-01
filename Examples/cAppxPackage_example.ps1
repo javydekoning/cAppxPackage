@@ -18,7 +18,7 @@ configuration AppxExample
   Import-DscResource -ModuleName 'cAppxPackage'  
   
   Node $AllNodes.NodeName {
-    AppxResource 'Profile'
+    cAppxPackage 'Profile'
     {
       Name = 'Microsoft.WindowsAlarms'
       Ensure = 'Present'
