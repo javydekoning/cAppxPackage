@@ -13,8 +13,12 @@ Describe "cAppxPackage PS$PSVersion" {
 
         Set-StrictMode -Version latest
 
-        It 'PSScriptAnalyzer should return zero suggestions' {
-          Invoke-ScriptAnalyzer -Path . | should Be Null
+        It 'PSScriptAnalyzer should return zero Errors' {
+          (Invoke-ScriptAnalyzer -Path . -Severity 'error').count | Should BeLessThan 1
+        }
+        
+        It 'PSScriptAnalyzer should return zero Errors' {
+          (Invoke-ScriptAnalyzer -Path . -Severity 'warning').count | Should BeLessThan 1
         }
 
         It 'get() method should return class of type cAppxPackage' {
