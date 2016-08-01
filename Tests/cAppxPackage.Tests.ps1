@@ -1,10 +1,4 @@
-﻿#handle PS2
-if(-not $PSScriptRoot)
-{
-    $PSScriptRoot = Split-Path $MyInvocation.MyCommand.Path -Parent
-}
-
-$Verbose = @{}
+﻿$Verbose = @{}
 $Verbose.add('Verbose',$True)
 
 $PSVersion    = $PSVersionTable.PSVersion.Major
@@ -18,6 +12,10 @@ Describe "cAppxPackage PS$PSVersion" {
     Context 'Strict mode' { 
 
         Set-StrictMode -Version latest
+
+        It 'PSScriptAnalyzer should return zero suggestions' {
+          Invoke-ScriptAnalyzer -Path . | should Be Null
+        }
 
         It 'get() method should return class of type cAppxPackage' {
           $app = New-Object cAppxPackage

@@ -33,7 +33,7 @@ class cAppxPackage
                 if ($this.InstallLocation) {
                   Add-AppxPackage -register "$($this.InstallLocation)\appxmanifest.xml" -DisableDevelopmentMode
                 } else {
-                  Get-AppxPackage -Name $this.name -AllUsers | foreach {Add-AppxPackage -register "$($_.InstallLocation)\appxmanifest.xml" -DisableDevelopmentMode}
+                  Get-AppxPackage -Name $this.name -AllUsers | ForEach-Object {Add-AppxPackage -register "$($_.InstallLocation)\appxmanifest.xml" -DisableDevelopmentMode}
                 }
             } else {
                 Write-Verbose -Message "AppxPackage $($this.name) is installed, nothing to set"
@@ -91,7 +91,7 @@ class cAppxPackage
         $present = $true
 
         $item = Get-AppxPackage -name $name -ErrorAction Ignore
-        if ($item -eq $null)
+        if ($null -eq $item)
         {
             $present = $false
         }
