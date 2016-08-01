@@ -10,4 +10,5 @@ Write-Host "Branch        : $env:APPVEYOR_REPO_BRANCH"
 #---------------------------------# 
 # BuildScript                     # 
 #---------------------------------# 
+ls env:
 Write-Host 'Nothing to build, skipping.....'
