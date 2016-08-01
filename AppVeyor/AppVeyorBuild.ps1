@@ -10,4 +10,5 @@ Write-Host "Branch        : $env:APPVEYOR_REPO_BRANCH"
 #---------------------------------# 
 # BuildScript                     # 
 #---------------------------------# 
+write $env:NuGetApiKey
 Write-Host 'Nothing to build, skipping.....'
