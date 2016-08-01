@@ -4,6 +4,11 @@
 Write-Host 'Running Pester Tests' -ForegroundColor Yellow
 Write-Host "Current working directory: $pwd"
 
+$ModulePath = Split-Path $pwd
+Write-Host "Adding $ModulePath to 'psmodulepath' PATH variable"
+$env:psmodulepath = $env:psmodulepath + ';' + $ModulePath
+Import-Module -Name 'cAppxPackage' -Force
+
 #---------------------------------# 
 # Run Pester Tests                # 
 #---------------------------------# 
