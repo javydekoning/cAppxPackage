@@ -1,38 +1,66 @@
-﻿$Verbose = @{}
-$Verbose.add('Verbose',$True)
+﻿$Scripts = Get-ChildItem “$PSScriptRoot\..\” -Filter ‘*.ps1’ -Recurse | Where-Object {$_.name -NotMatch ‘Tests.ps1’}
+$Modules = Get-ChildItem “$PSScriptRoot\..\” -Filter ‘*.psm1’ -Recurse
+$Rules   = Get-ScriptAnalyzerRule
+
+if ($Modules.count -gt 0) {
+  Describe ‘Testing all Modules against default PSScriptAnalyzer rule-set’ {
+    foreach ($module in $modules) {
+      Context “Testing Module '$($module.FullName)'” {
+        foreach ($rule in $rules) {
+          It “passes the PSScriptAnalyzer Rule $rule“ {
+            (Invoke-ScriptAnalyzer -Path $module.FullName -IncludeRule $rule.RuleName ).Count | Should Be 0
+          }
+        }
+      }
+    }
+  }
+}
+if ($Scripts.count -gt 0) {
+  Describe ‘Testing all Script against default PSScriptAnalyzer rule-set’ {
+    foreach ($Script in $scripts) {
+      Context “Testing Script '$($script.FullName)'” {
+        foreach ($rule in $rules) {
+          It “passes the PSScriptAnalyzer Rule $rule“ {
+            if (-not ($module.BaseName -match 'AppVeyor') -and -not ($rule.Rulename -eq 'PSAvoidUsingWriteHost') ) {
+              (Invoke-ScriptAnalyzer -Path $script.FullName -IncludeRule $rule.RuleName ).Count | Should Be 0
+            }
+          }
+        }
+      }
+    }
+  }
+}
 
 $PSVersion    = $PSVersionTable.PSVersion.Major
-$cAppxPackage = "$PSScriptRoot\..\cAppxPackage.psm1"
+$cAppxPackage = $Modules | Where-Object {$_.Name -eq 'cAppxPackage.psm1'}
 
-Describe "cAppxPackage PS$PSVersion" {
-    Copy-Item $cAppxPackage TestDrive:\script.ps1 -Force
-    Mock Export-ModuleMember {return $true}
-    . 'TestDrive:\script.ps1'
+Describe "Testing $($cAppxPackage.FullName) PS$PSVersion" {
+  Copy-Item $cAppxPackage TestDrive:\script.ps1 -Force
+  Mock Export-ModuleMember {return $true}
+  . 'TestDrive:\script.ps1'
     
-    Context 'Strict mode' { 
+  Context 'Strict mode' { 
 
-        Set-StrictMode -Version latest
+    Set-StrictMode -Version latest
 
-        It 'PSScriptAnalyzer should return zero Errors' {
-          @(Invoke-ScriptAnalyzer -Path . -Severity 'error').count | Should BeLessThan 1
-        }
-        
-        It 'PSScriptAnalyzer should return zero Errors' {
-          @(Invoke-ScriptAnalyzer -Path . -Severity 'warning').count | Should BeLessThan 1
-        }
-
-        It 'get() method should return class of type cAppxPackage' {
-          $app = New-Object cAppxPackage
-          $app.name = 'NotAPackageName'
-          $app.ensure = 'Present'
-          $app.get().GetType().Name | should Be cAppxPackage
-        }
-
-        It 'test() method should return Boolean' {
-          $app = New-Object cAppxPackage
-          $app.name = 'NotAPackageName'
-          $app.ensure = 'Present'
-          $app.test().GetType().Name | should Be Boolean
-        }
+    $app = New-Object cAppxPackage
+    $app.name = 'NotAPackageName'
+    $app.ensure = 'Present'
+      
+    It 'get() method should return class of type cAppxPackage' {
+      $app.get().GetType().Name | should Be cAppxPackage
     }
+
+    It 'test() method should return Boolean' {
+      $app.test().GetType().Name | should Be Boolean
+    }
+    
+    It 'TestAppxPresent() method should return Boolean' {
+      $app.TestAppxPresent($app.name).GetType().Name | should Be Boolean
+    }
+
+    It 'TestSystemPriv() method should return Boolean' {
+      $app.TestSystemPriv().GetType().Name | should Be Boolean
+    }
+  }
 }
