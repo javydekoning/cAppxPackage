@@ -13,7 +13,8 @@ configuration AppxExample
 {
   param (
       [Parameter(Mandatory=$false)]
-      [PSCredential]$Credential
+      [PSCredential] [System.Management.Automation.Credential()] 
+      $Credential
   )
   Import-DscResource -ModuleName 'cAppxPackage'  
   
